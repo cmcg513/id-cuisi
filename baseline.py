@@ -18,7 +18,7 @@ import argparse
 # sets up basic cmd line parsing
 def parse_args():
 	parser = argparse.ArgumentParser(description="baseline.py: uses a \
-		striaghtforward Naive Bayes classification method on recipe data \
+		straightforward Naive Bayes classification method on recipe data \
 		and reports some statistics/metrics on its performance")
 	parser.add_argument(
 		"-f",
@@ -79,25 +79,55 @@ def transform(recipes,t_labels,c_vect):
 
 	return X,t_nums
 
-def main():
-	json = pd.read_json("train.json")
-	train,test = model_selection.train_test_split(json)
-	print("Train dataset size: {0} ({1:2.2f}%)".format(len(train),float(len(train))/float(len(json))*100))
-	print("Test dataset size: {0} ({1:2.2f}%)".format(len(test),float(len(test))/float(len(json))*100))
+def process_data(filepath):
+	# read in the data set
+	full_data_set = pd.read_json(filepath)
+	
+	# split the data into train and test portions
+	train,test = model_selection.train_test_split(full_data_set)
+	
+	# report the size of the data set
+	print("Full dataset size: {0}".format(len(full_data_set)))
+	print("Train dataset size: {0} ({1:2.2f}%)".format(len(train),float(len(train))/float(len(full_data_set))*100))
+	print("Test dataset size: {0} ({1:2.2f}%)".format(len(test),float(len(test))/float(len(full_data_set))*100))
 
+	# fit the CV (c_vect) to the train data and transform it into the appropriate 
+	# format (X), acquiring the expected targets (Y) as well
 	X,Y,t_labels,c_vect = transform_and_fit(train)
 
+	# initialize an instance of a Bernoulli Naive Bayes model
 	bnb = BernoulliNB()
-	clf=bnb.fit(X,Y)
-	X_test,Y_test=transform(test,t_labels,c_vect)
-	train_pred = clf.predict(X)
-	test_pred = clf.predict(X_test)
+
+	# fit the Bernoulli model to the train data, giving us a classifier
+	classifier = bnb.fit(X,Y)
+
+	# transform the test data
+	X_test,Y_test = transform(test,t_labels,c_vect)
+	
+	# get the list of predicted targets on the train and test data
+	train_pred = classifier.predict(X)
+	test_pred = classifier.predict(X_test)
+
+	# compute the accuracy of the predictions
 	train_acc = np.mean(train_pred == Y)
 	test_acc = np.mean(test_pred == Y_test)
+
+	# report the accuracy
 	print("Training Set accuracy: {0}".format(train_acc))
 	print("Testing Set accuracy: {0}".format(test_acc))
+
+	# report additional metrics
 	print(metrics.classification_report(Y,train_pred,target_names=t_labels))
 	print(metrics.confusion_matrix(Y,train_pred))
-	# print("\n"); import IPython; IPython.embed()
+
+# the main routine; grabs command line args and sets the program in motion
+def main():
+	args = parse_args()
+
+	# use a default filepath if unspecified
+	if args.file:
+		process_data(args.file)
+	else:
+		process_data("data/train.json")
 
 main()
