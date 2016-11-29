@@ -1,3 +1,12 @@
+# Author: Casey McGinley <cmm771@nyu.edu>
+# Machine Learning, Fall 2016
+# Final Project: Identifying Cultural Cuisine Influences in Recipes
+# 
+# baseline.py
+# This script represents my first attempt at developing an effective tool to 
+# identify/classify a recipe's type(s) of cuisines. This script will be the
+# baseline from which I attempt to improve future tools.
+
 import pandas as pd
 from sklearn import model_selection
 from sklearn.naive_bayes import BernoulliNB
@@ -5,40 +14,54 @@ from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 from sklearn import metrics
 
-def process_first(raw_data):
-	targets = list(set(raw_data['cuisine']))
-	n_targs = []
-	for x in raw_data['cuisine']:
-		n_targs.append(targets.index(x))
+# given a set of recipes, it returns the transformed data, the list of expected 
+# labels (cuisines), a CV instance fitted to the given data and ready to 
+# transform future data, and the target labels
+def transform_and_fit(recipes):
+	# get a unique list of all possible cuisines; the labels for out targets
+	t_labels = list(set(recipes['cuisine']))
 
-	ingredients = set()
-	for l in raw_data['ingredients']:
-		for x in l:
-			ingredients.add(x)
-	ingredients = list(ingredients)
+	# generate a list of ints where each int represents an index into t_labels
+	# this is the list of targets, the numeric form of the expected cuisine of 
+	# each recipe
+	t_nums = []
+	for c in recipes['cuisine']:
+		t_nums.append(t_labels.index(c))
 
-	count_vect = CountVectorizer(binary=True)
+	# create a CV instance
+	# given a string, it will create a numeric representation indicating which 
+	# words are and are not present (see binary=True)
+	c_vect = CountVectorizer(binary=True)
 
+	# collapse each ingredient list to single string of space-separated words
 	data = []
-	for d in raw_data['ingredients']:
-		data.append(" ".join(d))
+	for i_list in recipes['ingredients']:
+		data.append(" ".join(i_list))
 
-	X = count_vect.fit_transform(data)
+	# fit the CV instance to our data and transform our data into a form 
+	# suitable for analysis with scikit-learns modules
+	X = c_vect.fit_transform(data)
 
-	return X, n_targs,targets,count_vect,ingredients
+	return X,t_nums,t_labels,c_vect
 
-def process_additional(raw_data,targets,count_vect,ingredients):
-	n_targs = []
-	for x in raw_data['cuisine']:
-		n_targs.append(targets.index(x))
+# given a set of recipes, it returns the transformed dataand the list of 
+# expected labels (cuisines)
+# 
+# NOTE: this is basically the same procedure as transform_and_fit() except
+# that it utilizes the label ordering and fitted CV instance returned by 
+# transform_and_fit() instead of generating this on its own
+def transform(recipes,t_labels,c_vect):
+	t_nums = []
+	for c in recipes['cuisine']:
+		t_nums.append(t_labels.index(c))
 	
 	data = []
-	for d in raw_data['ingredients']:
-		data.append(" ".join(d))
+	for i_list in recipes['ingredients']:
+		data.append(" ".join(i_list))
 
-	X = count_vect.transform(data)
+	X = c_vect.transform(data)
 
-	return X,n_targs
+	return X,t_nums
 
 def main():
 	json = pd.read_json("train.json")
@@ -46,34 +69,18 @@ def main():
 	print("Train dataset size: {0} ({1:2.2f}%)".format(len(train),float(len(train))/float(len(json))*100))
 	print("Test dataset size: {0} ({1:2.2f}%)".format(len(test),float(len(test))/float(len(json))*100))
 
-	X,Y,targets,count_vect,ingredients = process_first(train)
-
-	# X = []
-
-	# print("Total samples: {0}".format(len(train['ingredients'])))
-	# c = 0
-	# for d in train['ingredients']:
-	# 	if c % 1000 == 0:
-	# 		print(c)
-	# 	x = []
-	# 	for i in ingredients:
-	# 		if i in d:
-	# 			x.append(1)
-	# 		else:
-	# 			x.append(0)
-	# 	X.append(x)
-	# 	c += 1
+	X,Y,t_labels,c_vect = transform_and_fit(train)
 
 	bnb = BernoulliNB()
 	clf=bnb.fit(X,Y)
-	X_test,Y_test=process_additional(test,targets,count_vect,ingredients)
+	X_test,Y_test=transform(test,t_labels,c_vect)
 	train_pred = clf.predict(X)
 	test_pred = clf.predict(X_test)
 	train_acc = np.mean(train_pred == Y)
 	test_acc = np.mean(test_pred == Y_test)
 	print("Training Set accuracy: {0}".format(train_acc))
 	print("Testing Set accuracy: {0}".format(test_acc))
-	print(metrics.classification_report(Y,train_pred,target_names=targets))
+	print(metrics.classification_report(Y,train_pred,target_names=t_labels))
 	print(metrics.confusion_matrix(Y,train_pred))
 	# print("\n"); import IPython; IPython.embed()
 
