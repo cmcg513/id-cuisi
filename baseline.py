@@ -13,6 +13,22 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 from sklearn import metrics
+import argparse
+
+# sets up basic cmd line parsing
+def parse_args():
+	parser = argparse.ArgumentParser(description="baseline.py: uses a \
+		striaghtforward Naive Bayes classification method on recipe data \
+		and reports some statistics/metrics on its performance")
+	parser.add_argument(
+		"-f",
+		"--file",
+		metavar="FILEPATH",
+		help="the filepath to the dataset; defaults to relative path: \
+		data/train.json"
+		)
+
+	return parser.parse_args()
 
 # given a set of recipes, it returns the transformed data, the list of expected 
 # labels (cuisines), a CV instance fitted to the given data and ready to 
