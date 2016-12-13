@@ -5,61 +5,61 @@ Transforming training data...
 Model used: LogisticRegression
 Fitting model...
 Best params (train)
-{'vect__binary': True, 'clf__random_state': None, 'tfidf__use_idf': True, 'clf__class_weight': None, 'clf__solver': 'lbfgs', 'tfidf__smooth_idf': True, 'clf__multi_class': 'ovr', 'clf__C': 10, 'tfidf__sublinear_tf': True, 'clf__penalty': 'l2', 'tfidf__norm': 'l2', 'clf__fit_intercept': True, 'clf__max_iter': 100, 'clf__tol': 0.0001, 'vect__max_df': 0.6, 'vect__ngram_range': (1, 1), 'clf__dual': False}
-0.778410995642
-0.866443178009
+{'clf__random_state': None, 'clf__fit_intercept': True, 'tfidf__norm': 'l2', 'clf__multi_class': 'ovr', 'vect__binary': True, 'clf__tol': 0.0001, 'tfidf__sublinear_tf': True, 'clf__penalty': 'l2', 'clf__dual': False, 'clf__max_iter': 100, 'clf__C': 10, 'tfidf__use_idf': True, 'vect__ngram_range': (1, 1), 'vect__max_df': 0.6, 'clf__class_weight': None, 'vect__tokenizer': <function simple_tokenizer at 0x7ff257c90d90>, 'tfidf__smooth_idf': True, 'clf__solver': 'lbfgs'}
+Best score: 0.780590010057
+Score: 0.868488099229
 Transforming test data...
 Predicting train data...
 Predicting test data...
-Best accuracy (train): 0.8664431780087161
-Accuracy (train): 0.7914320193081255
+Best accuracy (train): 0.8684880992289641
+Accuracy (train): 0.7930410297666934
               precision    recall  f1-score   support
 
-cajun_creole       0.87      0.80      0.84      1151
-     russian       0.83      0.69      0.75       365
-    jamaican       0.92      0.85      0.89       393
-     italian       0.87      0.93      0.90      5859
-        thai       0.87      0.86      0.86      1136
-    filipino       0.88      0.76      0.82       575
-     chinese       0.86      0.92      0.89      2024
-     spanish       0.82      0.62      0.71       711
-     british       0.80      0.65      0.71       602
-  vietnamese       0.85      0.71      0.78       640
-      french       0.74      0.75      0.75      1991
-     mexican       0.93      0.95      0.94      4801
-       irish       0.83      0.68      0.74       504
-    moroccan       0.91      0.87      0.89       635
-   brazilian       0.90      0.75      0.82       363
-      korean       0.91      0.86      0.88       617
- southern_us       0.81      0.86      0.83      3254
-       greek       0.90      0.82      0.86       865
-      indian       0.91      0.95      0.93      2289
-    japanese       0.91      0.80      0.85      1055
+    filipino       0.89      0.78      0.83       560
+     italian       0.87      0.93      0.90      5862
+     mexican       0.94      0.96      0.95      4815
+       irish       0.84      0.69      0.76       498
+   brazilian       0.90      0.75      0.82       353
+    jamaican       0.93      0.85      0.89       409
+  vietnamese       0.87      0.73      0.79       627
+     british       0.81      0.67      0.73       600
+      indian       0.90      0.95      0.93      2282
+       greek       0.89      0.81      0.85       897
+      french       0.75      0.75      0.75      1981
+cajun_creole       0.86      0.81      0.83      1146
+     russian       0.85      0.69      0.76       368
+    moroccan       0.91      0.86      0.89       605
+      korean       0.92      0.87      0.89       635
+     chinese       0.86      0.92      0.89      2008
+    japanese       0.91      0.79      0.84      1087
+        thai       0.88      0.86      0.87      1152
+ southern_us       0.80      0.87      0.83      3201
+     spanish       0.80      0.64      0.71       744
 
- avg / total       0.87      0.87      0.86     29830
+ avg / total       0.87      0.87      0.87     29830
 
               precision    recall  f1-score   support
 
-cajun_creole       0.75      0.72      0.74       395
-     russian       0.61      0.44      0.51       124
-    jamaican       0.82      0.77      0.79       133
-     italian       0.82      0.89      0.86      1979
-        thai       0.80      0.79      0.79       403
-    filipino       0.70      0.63      0.66       180
-     chinese       0.81      0.86      0.83       649
-     spanish       0.69      0.51      0.59       278
-     british       0.61      0.45      0.51       202
-  vietnamese       0.66      0.53      0.59       185
-      french       0.59      0.65      0.62       655
-     mexican       0.91      0.93      0.92      1637
-       irish       0.68      0.48      0.56       163
-    moroccan       0.80      0.76      0.78       186
-   brazilian       0.75      0.57      0.64       104
-      korean       0.85      0.75      0.79       213
- southern_us       0.72      0.79      0.75      1066
-       greek       0.78      0.72      0.75       310
-      indian       0.86      0.90      0.88       714
-    japanese       0.83      0.70      0.76       368
+    filipino       0.71      0.64      0.68       195
+     italian       0.81      0.91      0.86      1976
+     mexican       0.92      0.92      0.92      1623
+       irish       0.61      0.47      0.53       169
+   brazilian       0.70      0.60      0.64       114
+    jamaican       0.81      0.75      0.78       117
+  vietnamese       0.65      0.54      0.59       198
+     british       0.58      0.45      0.51       204
+      indian       0.87      0.89      0.88       721
+       greek       0.77      0.73      0.75       278
+      french       0.61      0.63      0.62       665
+cajun_creole       0.77      0.72      0.75       400
+     russian       0.64      0.40      0.50       121
+    moroccan       0.83      0.78      0.80       216
+      korean       0.82      0.75      0.78       195
+     chinese       0.81      0.84      0.83       665
+    japanese       0.82      0.75      0.79       336
+        thai       0.78      0.74      0.76       387
+ southern_us       0.74      0.81      0.77      1119
+     spanish       0.69      0.51      0.59       245
 
  avg / total       0.79      0.79      0.79      9944
 
