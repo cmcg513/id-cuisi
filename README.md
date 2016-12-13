@@ -1,4 +1,6 @@
 # id-cuisi: Identifying Cultural Cuisine Influences in Recipes
+## Video Presentation
+https://youtu.be/OQqj8hGPl6w
 ## What is this?
 This is the corpus of code and data that I am currently developing and exploring (respectively) as part of my final project for the Fall 2016 Machine Learning class taught by [Prof. Sandoval](http://engineering.nyu.edu/people/gustavo-sandoval) at [NYU's Tandon School of Engineering](http://engineering.nyu.edu/).
 
