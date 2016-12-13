@@ -14,8 +14,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 from sklearn import metrics
 import argparse
-import plotly
-import plotly.graph_objs as go
+import plot_prfs
 
 from sklearn.linear_model import LogisticRegression, RidgeClassifierCV, SGDClassifier
 from sklearn.ensemble import VotingClassifier, RandomForestClassifier, GradientBoostingClassifier, GradientBoostingRegressor, AdaBoostClassifier, ExtraTreesRegressor, ExtraTreesClassifier
@@ -235,6 +234,7 @@ def process_data(filepath,model_num,seed):
 		('clf', model)
 		])
 
+	params['vect__tokenizer'] = [simple_tokenizer]#,None]
 	params['vect__ngram_range'] = [(1,1)]#,(1,2)]
 	params['vect__binary'] = [True]#,False]
 	params['tfidf__use_idf'] = [True]#[True,False]
@@ -255,8 +255,8 @@ def process_data(filepath,model_num,seed):
 
 	print("Best params (train)")
 	print(gs_clf.best_params_)
-	print(gs_clf.best_score_)
-	print(gs_clf.score(X_train,y_train))
+	print("Best score: "+str(gs_clf.best_score_))
+	print("Score: "+str(gs_clf.score(X_train,y_train)))
 
 	# except:
 	# 	X = X.toarray()
@@ -298,104 +298,30 @@ def process_data(filepath,model_num,seed):
 	c_matrix_test = metrics.confusion_matrix(y_test,test_pred)
 
 	f = open("prfs_train.csv","w")
+	f.write(",".join(t_labels)+"\n")
 	for i in prfs_train:
 		f.write(",".join([str(x) for x in list(i)])+"\n")
 	f.close()
 	f = open("prfs_test.csv","w")
+	f.write(",".join(t_labels)+"\n")
 	for i in prfs_test:
 		f.write(",".join([str(x) for x in list(i)])+"\n")
 	f.close()
 
 	f = open("c_matrix_train.csv","w")
+	f.write(",".join(t_labels)+"\n")
 	for i in c_matrix_train:
 		f.write(",".join([str(x) for x in list(i)])+"\n")
 	f.close()
 
 	f = open("c_matrix_test.csv","w")
+	f.write(",".join(t_labels)+"\n")
 	for i in c_matrix_test:
 		f.write(",".join([str(x) for x in list(i)])+"\n")
 	f.close()
 
 	if PLOT:
-		y_plt = []
-		for i in range(len(t_labels)):
-			y_plt.append(prfs_train[0][i])
-		bar = go.Bar(x=t_labels,y=y_plt)
-		data=[bar]
-		layout = go.Layout(title="Precision - Training data")
-		fig = go.Figure(data=data, layout=layout)
-		# import IPython; IPython.embed()
-		plotly.offline.plot(fig,filename='precision_train.html')
-
-		y_plt = []
-		for i in range(len(t_labels)):
-			y_plt.append(prfs_train[1][i])
-		bar = go.Bar(x=t_labels,y=y_plt)
-		data=[bar]
-		layout = go.Layout(title="Recall - Training data")
-		fig = go.Figure(data=data, layout=layout)
-		# import IPython; IPython.embed()
-		plotly.offline.plot(fig,filename='recall_train.html')
-
-		y_plt = []
-		for i in range(len(t_labels)):
-			y_plt.append(prfs_train[2][i])
-		bar = go.Bar(x=t_labels,y=y_plt)
-		data=[bar]
-		layout = go.Layout(title="F1-score - Training data")
-		fig = go.Figure(data=data, layout=layout)
-		# import IPython; IPython.embed()
-		plotly.offline.plot(fig,filename='f1_train.html')
-
-		y_plt = []
-		for i in range(len(t_labels)):
-			y_plt.append(prfs_train[3][i])
-		bar = go.Bar(x=t_labels,y=y_plt)
-		data=[bar]
-		layout = go.Layout(title="Number of Samples - Training data")
-		fig = go.Figure(data=data, layout=layout)
-		# import IPython; IPython.embed()
-		plotly.offline.plot(fig,filename='samples_train.html')
-
-		y_plt = []
-		for i in range(len(t_labels)):
-			y_plt.append(prfs_test[0][i])
-		bar = go.Bar(x=t_labels,y=y_plt)
-		data=[bar]
-		layout = go.Layout(title="Precision - Test data")
-		fig = go.Figure(data=data, layout=layout)
-		# import IPython; IPython.embed()
-		plotly.offline.plot(fig,filename='precision_test.html')
-
-		y_plt = []
-		for i in range(len(t_labels)):
-			y_plt.append(prfs_test[1][i])
-		bar = go.Bar(x=t_labels,y=y_plt)
-		data=[bar]
-		layout = go.Layout(title="Recall - Test data")
-		fig = go.Figure(data=data, layout=layout)
-		# import IPython; IPython.embed()
-		plotly.offline.plot(fig,filename='recall_test.html')
-
-		y_plt = []
-		for i in range(len(t_labels)):
-			y_plt.append(prfs_test[2][i])
-		bar = go.Bar(x=t_labels,y=y_plt)
-		data=[bar]
-		layout = go.Layout(title="F1-score - Test data")
-		fig = go.Figure(data=data, layout=layout)
-		# import IPython; IPython.embed()
-		plotly.offline.plot(fig,filename='f1_test.html')
-
-		y_plt = []
-		for i in range(len(t_labels)):
-			y_plt.append(prfs_test[3][i])
-		bar = go.Bar(x=t_labels,y=y_plt)
-		data=[bar]
-		layout = go.Layout(title="Number of Samples - Test data")
-		fig = go.Figure(data=data, layout=layout)
-		# import IPython; IPython.embed()
-		plotly.offline.plot(fig,filename='samples_test.html')
+		plot_prfs.plot_prfs(t_labels,prfs_train,prfs_test)
 
 
 # the main routine; grabs command line args and sets the program in motion
