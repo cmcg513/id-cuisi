@@ -14,7 +14,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 from sklearn import metrics
 import argparse
-import plot_prfs
+
+from utilities import plot_prfs
 
 from sklearn.linear_model import LogisticRegression, RidgeClassifierCV, SGDClassifier
 from sklearn.ensemble import VotingClassifier, RandomForestClassifier, GradientBoostingClassifier, GradientBoostingRegressor, AdaBoostClassifier, ExtraTreesRegressor, ExtraTreesClassifier
@@ -321,7 +322,7 @@ def process_data(filepath,model_num,seed):
 	f.close()
 
 	if PLOT:
-		plot_prfs.plot_prfs(t_labels,prfs_train,prfs_test)
+		plot_prfs(t_labels,prfs_train,prfs_test)
 
 
 # the main routine; grabs command line args and sets the program in motion
