@@ -1,0 +1,65 @@
+Full dataset size: 39774
+Train dataset size: 29830 (75.00%)
+Test dataset size: 9944 (25.00%)
+Transforming training data...
+Model used: SGDClassifier
+Fitting model...
+Best params (train)
+{'tfidf__use_idf': True, 'clf__alpha': 0.0001, 'clf__class_weight': None, 'clf__random_state': 196241, 'vect__binary': True, 'clf__penalty': 'elasticnet', 'tfidf__norm': 'l2', 'clf__loss': 'modified_huber', 'tfidf__smooth_idf': True, 'vect__ngram_range': (1, 2), 'vect__tokenizer': None, 'vect__max_df': 0.6, 'tfidf__sublinear_tf': True}
+Best score: 0.77898089172
+Score: 0.890479383171
+Transforming test data...
+Predicting train data...
+Predicting test data...
+Best accuracy (train): 0.890479383171304
+Accuracy (train): 0.786906677393403
+              precision    recall  f1-score   support
+
+     russian       0.94      0.66      0.77       360
+      french       0.78      0.83      0.80      2004
+       irish       0.93      0.70      0.80       502
+      korean       0.96      0.83      0.89       615
+        thai       0.90      0.88      0.89      1145
+     british       0.91      0.67      0.77       594
+ southern_us       0.85      0.90      0.87      3221
+     italian       0.88      0.96      0.92      5941
+     spanish       0.90      0.65      0.75       740
+cajun_creole       0.87      0.84      0.86      1152
+    japanese       0.96      0.79      0.87      1080
+      indian       0.90      0.97      0.93      2264
+     mexican       0.94      0.96      0.95      4782
+    filipino       0.96      0.79      0.87       570
+    jamaican       0.97      0.83      0.89       408
+     chinese       0.83      0.96      0.89      1976
+       greek       0.90      0.85      0.88       908
+    moroccan       0.95      0.90      0.92       612
+  vietnamese       0.92      0.75      0.83       607
+   brazilian       0.95      0.70      0.80       349
+
+ avg / total       0.89      0.89      0.89     29830
+
+              precision    recall  f1-score   support
+
+     russian       0.75      0.34      0.47       129
+      french       0.60      0.64      0.61       642
+       irish       0.73      0.43      0.54       165
+      korean       0.84      0.69      0.76       215
+        thai       0.81      0.75      0.78       394
+     british       0.57      0.35      0.43       210
+ southern_us       0.72      0.82      0.76      1099
+     italian       0.80      0.90      0.85      1897
+     spanish       0.69      0.50      0.58       249
+cajun_creole       0.76      0.71      0.73       394
+    japanese       0.85      0.64      0.73       343
+      indian       0.84      0.92      0.88       739
+     mexican       0.91      0.93      0.92      1656
+    filipino       0.78      0.60      0.68       185
+    jamaican       0.90      0.74      0.81       118
+     chinese       0.75      0.89      0.81       697
+       greek       0.77      0.71      0.74       267
+    moroccan       0.81      0.77      0.79       209
+  vietnamese       0.78      0.54      0.64       218
+   brazilian       0.81      0.47      0.60       118
+
+ avg / total       0.79      0.79      0.78      9944
+
