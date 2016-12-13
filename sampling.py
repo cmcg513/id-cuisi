@@ -296,16 +296,16 @@ def process_data(filepath,model_num,seed):
 	print("Train dataset size: {0} ({1:2.2f}%)".format(len(train),float(len(train))/float(len(full_data_set))*100))
 	print("Test dataset size: {0} ({1:2.2f}%)".format(len(test),float(len(test))/float(len(full_data_set))*100))
 
-	# fit the CV (c_vect) to the train data and transform it into the appropriate 
-	# format (X), acquiring the expected targets (y) as well
-	print("Transforming training data...")
-	X_train,y_train,t_labels = transform_and_fit(train) #,c_vect,tf_trans
-	# print(X_train)
 	# initialize an instance of a model
 	rand = np.random.randint(0,999999)
 	# print(rand)
 	model,model_string,params = get_model(model_num,rand)
 	print("Model used: "+model_string)
+	# fit the CV (c_vect) to the train data and transform it into the appropriate 
+	# format (X), acquiring the expected targets (y) as well
+	print("Transforming training data...")
+	X_train,y_train,t_labels = transform_and_fit(train) #,c_vect,tf_trans
+	# print(X_train)
 
 	# create Pipeline
 	pline = Pipeline([

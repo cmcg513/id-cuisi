@@ -16,7 +16,7 @@ from sklearn import metrics
 import argparse
 import plotly
 import plotly.graph_objs as go
-from utilities import prfs_plot
+from utilities import plot_prfs
 
 # sets up basic cmd line parsing
 def parse_args():
@@ -29,6 +29,13 @@ def parse_args():
 		metavar="FILEPATH",
 		help="the filepath to the dataset; defaults to relative path: \
 		data/train.json"
+		)
+	parser.add_argument(
+		"-r",
+		"--random",
+		metavar="SEED",
+		type=int,
+		help="specify the random seed (optional)"
 		)
 
 	return parser.parse_args()
@@ -87,7 +94,8 @@ def process_data(filepath):
 	full_data_set = pd.read_json(filepath)
 	
 	# split the data into train and test portions
-	train,test = model_selection.train_test_split(full_data_set)
+	rand = np.random.randint(0,999999)
+	train,test = model_selection.train_test_split(full_data_set,random_state=rand)
 	
 	# report the size of the data set
 	print("Full dataset size: {0}".format(len(full_data_set)))
@@ -152,12 +160,14 @@ def process_data(filepath):
 		f.write(",".join([str(x) for x in list(i)])+"\n")
 	f.close()
 
-	prfs_plot(t_labels,prfs_train,prfs_test)
+	plot_prfs(t_labels,prfs_train,prfs_test)
 
 
 # the main routine; grabs command line args and sets the program in motion
 def main():
 	args = parse_args()
+	if args.random:
+		np.random.seed(args.random)
 
 	# use a default filepath if unspecified
 	if args.file:

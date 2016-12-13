@@ -208,11 +208,13 @@ def simple_tokenizer(x):
 	return x.split(" ")
 
 def process_data(filepath,model_num,seed):
+	np.random.seed(seed)
 	# read in the data set
 	full_data_set = pd.read_json(filepath)
 	
 	# split the data into train and test portions
-	train,test = model_selection.train_test_split(full_data_set,random_state=seed)
+	rand = np.random.randint(0,999999)
+	train,test = model_selection.train_test_split(full_data_set,random_state=rand)
 	
 	# report the size of the data set
 	print("Full dataset size: {0}".format(len(full_data_set)))
@@ -225,7 +227,8 @@ def process_data(filepath,model_num,seed):
 	X_train,y_train,t_labels = transform_and_fit(train) #,c_vect,tf_trans
 	# print(X_train)
 	# initialize an instance of a model
-	model,model_string,params = get_model(model_num,seed)
+	rand = np.random.randint(0,999999)
+	model,model_string,params = get_model(model_num,rand)
 	print("Model used: "+model_string)
 
 	# create Pipeline
