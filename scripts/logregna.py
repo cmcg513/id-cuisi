@@ -188,11 +188,6 @@ def get_model(model_num,seed):
 	elif model_num == 13:
 		model_string = "SGDClassifier"
 		model = SGDClassifier()
-		params['clf__random_state'] = [seed]
-		params['clf__loss'] =['modified_huber']#,'log']#,'squared_hinge','perceptron','hinge']
-		params['clf__penalty'] = ['elasticnet']#['none','l2','l1','elasticnet']
-		params['clf__alpha'] = [1e-4]#[1e-3,1e-4,1e-5]
-		params['clf__class_weight'] = [None]#,'balanced']
 	elif model_num == 14:
 		model_string = "VotingClassifier"
 		logr = LogisticRegression(C=10,random_state=seed)
@@ -240,8 +235,8 @@ def process_data(filepath,model_num,seed):
 		('clf', model)
 		])
 
-	params['vect__tokenizer'] = [None]#[simple_tokenizer,None]
-	params['vect__ngram_range'] = [(1,2)]#,(1,2)]
+	params['vect__tokenizer'] = [simple_tokenizer]#,None]
+	params['vect__ngram_range'] = [(1,1)]#,(1,2)]
 	params['vect__binary'] = [True]#,False]
 	params['tfidf__use_idf'] = [True]#[True,False]
 	params['tfidf__norm'] = ['l2']#['l1','l2',None]
